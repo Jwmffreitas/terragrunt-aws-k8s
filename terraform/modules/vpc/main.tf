@@ -1,5 +1,5 @@
 terraform {
-  backend "s3" {} # Importante para o Terragrunt
+  backend "s3" {}
 }
 
 resource "aws_vpc" "main" {
