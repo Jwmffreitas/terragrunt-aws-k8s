@@ -1,6 +1,6 @@
 resource "aws_iam_role" "ecr_role" {
   name = "ecr-access-role"
-  
+
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -18,7 +18,7 @@ resource "aws_iam_role" "ecr_role" {
 resource "aws_iam_policy" "ecr_policy" {
   name        = "ecr-access-policy"
   description = "Allow access to ECR"
-  policy      = jsonencode({
+  policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
