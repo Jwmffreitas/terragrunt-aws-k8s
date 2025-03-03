@@ -67,6 +67,10 @@ dependency "vpc" {
 
 dependency "ecr" {
   config_path = "../ecr" 
+
+    mock_outputs = {
+      repository_url = "repo_url"
+    }
 }
 
 
