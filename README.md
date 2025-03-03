@@ -28,6 +28,7 @@ Este projeto tem como objetivo provisionar e operar uma infraestrutura em nuvem 
 ## 🌐 Arquitetura Utilizada
 
 A infraestrutura provisionada segue a arquitetura abaixo:
+![base da arquitetura do repositório](https://raw.githubusercontent.com/Jwmffreitas/terragrunt-aws-k8s/refs/heads/main/public/terragrunt-aws-k8s.jpg?token=GHSAT0AAAAAAC3SCJZLR4CASDUNI5Q6MAV4Z6GF6NA)
 
 1.  **VPC (Virtual Private Cloud)**: A infraestrutura foi configurada em uma VPC com sub-redes públicas e privadas para suportar o acesso da aplicação.
 2.  **EKS Cluster**: Um cluster Kubernetes foi provisionado no EKS com dois nós EC2 em uma **auto-scaling group**.
