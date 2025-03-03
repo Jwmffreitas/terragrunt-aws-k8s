@@ -6,3 +6,4 @@ variable "public_subnets" { type = list(string)}
 variable "node_count" { default = 2 }
 variable "ssh_key_name" { default = "" }
 variable "env" {}
+variable "ecr_repo_url" {}

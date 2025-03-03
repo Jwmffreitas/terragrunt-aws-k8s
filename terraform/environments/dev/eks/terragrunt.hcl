@@ -27,6 +27,14 @@ generate "provider" {
     load_config_file       = false
   }
 
+  provider "helm" {
+  kubernetes {
+    host                   = module.eks.cluster_endpoint
+    token                  = data.aws_eks_cluster_auth.cluster.token
+    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+  }
+}
+
   data "aws_eks_cluster_auth" "cluster" {
     name = module.eks.cluster_name
   }
@@ -57,6 +65,10 @@ dependency "vpc" {
   }
 }
 
+dependency "ecr" {
+  config_path = "../ecr" 
+}
+
 
 inputs = {
   region          = "us-east-2"
@@ -66,4 +78,5 @@ inputs = {
   public_subnets  = dependency.vpc.outputs.public_subnets
   node_count      = 2
   env             = "dev"
+  ecr_repo_url    = dependency.ecr.outputs.repository_url
 }
