@@ -31,22 +31,38 @@ module "eks" {
   }
 }
 
-resource "kubernetes_config_map" "aws_auth" {
-  metadata {
-    name      = "aws-auth"
-    namespace = "kube-system"
-  }
-
-  data = {
-    mapRoles = <<EOF
-- rolearn: ${module.eks.eks_managed_node_groups["default"].iam_role_arn}
-  username: system:node:{{EC2PrivateDNSName}}
-  groups:
-    - system:bootstrappers
-    - system:nodes
-EOF
+resource "null_resource" "update_kubeconfig" {
+  provisioner "local-exec" {
+    command = "aws eks --region ${var.region} update-kubeconfig --name ${module.eks.cluster_name}"
   }
 
   depends_on = [module.eks]
+}
+
+resource "local_file" "aws_auth_config" {
+  filename = "${path.module}/aws-auth.yaml"
+  content  = <<-EOT
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: aws-auth
+      namespace: kube-system
+    data:
+      mapRoles: |
+        - rolearn: ${module.eks.eks_managed_node_groups["default"].iam_role_arn}
+          username: system:node:{{EC2PrivateDNSName}}
+          groups:
+            - system:bootstrappers
+            - system:nodes
+  EOT
+}
+
+
+resource "null_resource" "apply_aws_auth" {
+  provisioner "local-exec" {
+    command = "kubectl apply -f ${local_file.aws_auth_config.filename}"
+  }
+
+  depends_on = [module.eks, null_resource.update_kubeconfig]
 }
 
