@@ -7,18 +7,21 @@ module "eks" {
   version         = "20.33.1"
   cluster_name    = var.cluster_name
   cluster_version = "1.32"
-  subnet_ids      = var.private_subnets
+  subnet_ids      = var.public_subnets
   vpc_id          = var.vpc_id
 
   eks_managed_node_groups = {
     default = {
       min_size       = 1
-      max_size       = 3
-      desired_size   = 2
+      max_size       = 2
+      desired_size   = 1
       instance_types = ["t3.micro"]
       disk_size      = 20
     }
   }
+
+  cluster_endpoint_public_access = true
+  cluster_endpoint_private_access = false
 
   enable_cluster_creator_admin_permissions = true 
   cluster_security_group_id = aws_security_group.eks_sg.id
@@ -43,5 +46,7 @@ resource "kubernetes_config_map" "aws_auth" {
     - system:nodes
 EOF
   }
+
+  depends_on = [module.eks]
 }
 
