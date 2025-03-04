@@ -20,11 +20,11 @@ module "eks" {
     }
   }
 
-  cluster_endpoint_public_access = true
+  cluster_endpoint_public_access  = true
   cluster_endpoint_private_access = false
 
-  enable_cluster_creator_admin_permissions = true 
-  cluster_security_group_id = aws_security_group.eks_sg.id
+  enable_cluster_creator_admin_permissions = true
+  cluster_security_group_id                = aws_security_group.eks_sg.id
 
   tags = {
     Environment = var.env

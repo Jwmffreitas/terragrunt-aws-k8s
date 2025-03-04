@@ -20,4 +20,5 @@ inputs = {
   region         = "us-east-2"
   repository_name = "hello-eks"
   environment     = "dev"
+  app_path = "/home/$USER/GitHub/terragrunt-aws-k8s/application"
 }
