@@ -14,7 +14,7 @@ resource "aws_security_group" "eks_sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["187.62.242.130/32"] # Permitir acesso HTTPS público
+    cidr_blocks = ["0.0.0.0/0"] # Permitir acesso HTTPS público
   }
 
   egress {
